@@ -1,0 +1,15 @@
+// Fonts
+@import url('https://fonts.bunny.net/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+.chat-body {
+    height: 80vh;
+    overflow: hidden;
+    overflow-y: scroll;
+    padding-bottom: 0;
+}
