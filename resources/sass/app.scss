@@ -8,8 +8,9 @@
 @import 'bootstrap/scss/bootstrap';
 
 .chat-body {
-    height: 80vh;
+    height: 83vh;
     overflow: hidden;
     overflow-y: scroll;
+    scroll-behavior: smooth;
     padding-bottom: 0;
 }
