@@ -32,14 +32,28 @@ ul {
             background: #b44b81;
             color: #fff;
             border-radius: 8px;
+
+            @media(min-width: 500px) {
+                flex-basis: 15%;
+            }
+
+            @media(min-width: 992px) {
+                flex-basis: 10%;
+            }
         }
 
         .chat-message {
             flex-basis: 75%;
             padding-left: 8px;
+
+            @media(min-width: 500px) {
+                flex-basis: 85%;
+            }
+
+            @media(min-width: 992px) {
+                flex-basis: 90%;
+            }
         }
     }
-
-
 }
 </style>
