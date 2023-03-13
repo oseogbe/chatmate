@@ -10,9 +10,10 @@
                 v-model="newMessage"
                 @keydown="onUserTyping"
                 @keyup.enter="sendMessage"
+                autocomplete="off"
             />
             <span class="input-group-btn" style="margin-left: 12px;">
-                <button class="btn btn-primary btn-sm h-100" id="btn-chat" @click="sendMessage">
+                <button class="btn btn-primary btn-sm h-100" id="btn-chat" @click="sendMessage" :disabled="!newMessage">
                 Send
                 </button>
             </span>

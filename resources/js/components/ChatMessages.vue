@@ -1,19 +1,19 @@
 <template>
     <ul>
         <li v-for="message in messages" :key="message.id">
-            <p class="chat">
-                <span class="chat-user">
-                    <small>{{ message.user.name }}</small>
-                </span>
+            <p class="chat" :class="{'chat-left': user.id !== message.user.id}">
                 <div class="chat-message">
                     <strong>{{ message.message }}</strong>
                 </div>
+                <span class="chat-user">
+                    <small>{{ message.user.name }}</small>
+                </span>
             </p>
         </li>
     </ul>
 </template>
 <script setup>
-defineProps(['messages'])
+defineProps(['user', 'messages'])
 </script>
 <style lang="scss" scoped>
 
@@ -23,15 +23,14 @@ ul {
 
     .chat {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        flex-direction: column;
 
         .chat-user {
-            flex-basis: 25%;
-            padding: 4px 8px;
-            background: #b44b81;
             color: #fff;
-            border-radius: 8px;
+
+            small {
+                float: right;
+            }
 
             @media(min-width: 500px) {
                 flex-basis: 15%;
@@ -43,8 +42,17 @@ ul {
         }
 
         .chat-message {
-            flex-basis: 75%;
-            padding-left: 8px;
+            padding: 4px 8px;
+            background: #b44b81;
+            color: #fff;
+            border-radius: 8px;
+            width: max-content;
+            align-self: flex-end;
+
+            strong {
+                float: right;
+                padding-right: 8px;
+            }
 
             @media(min-width: 500px) {
                 flex-basis: 85%;
@@ -53,6 +61,19 @@ ul {
             @media(min-width: 992px) {
                 flex-basis: 90%;
             }
+        }
+    }
+
+    .chat-left {
+        .chat-user {
+
+            small {
+                float: left;
+            }
+        }
+
+        .chat-message {
+            align-self: flex-start;
         }
     }
 }
