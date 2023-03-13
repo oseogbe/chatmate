@@ -36,7 +36,7 @@
 @section('content')
 <div class="container">
     <div class="card chat-card">
-        <div class="card-body chat-body">
+        <div class="card-body chat-body" id="chatBody">
             <chat-messages
                 :messages="messages"
                 :user="{{ Auth::user() }}"
@@ -53,4 +53,13 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('extra-js')
+<script>
+    window.addEventListener('load', function() {
+        const chatBody = document.getElementById('chatBody');
+        chatBody.scrollTop = chatBody.scrollHeight;
+    });
+</script>
 @endsection
