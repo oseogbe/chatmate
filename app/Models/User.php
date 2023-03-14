@@ -46,4 +46,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Message::class);
     }
+
+    public static function otherUsers()
+    {
+        return static::whereNot('id', auth()->id());
+    }
 }
