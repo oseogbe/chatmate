@@ -47,6 +47,11 @@ class User extends Authenticatable
         return $this->hasMany(Message::class);
     }
 
+    public function chatRooms()
+    {
+        return $this->hasMany(ChatRoom::class, 'created_by');
+    }
+
     public static function otherUsers()
     {
         return static::whereNot('id', auth()->id());
