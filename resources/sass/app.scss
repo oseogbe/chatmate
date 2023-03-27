@@ -12,6 +12,16 @@
     border-color: var(--primary-color) !important;
 }
 
+.btn-outline-primary {
+    border-color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
+
+    &:hover {
+        background-color: var(--primary-color) !important;
+        color: #fff !important;
+    }
+}
+
 textarea:focus,
 input[type="text"]:focus,
 input[type="password"]:focus,
