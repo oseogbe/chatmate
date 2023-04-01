@@ -12,6 +12,7 @@ class ChatRoom extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'users' => 'array'
+        'subadmins' => 'array',
+        'members' => 'array',
     ];
 }

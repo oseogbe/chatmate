@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex p-3 mb-4" role="button">
+    <div class="d-flex p-4" role="button">
         <div class="chat-user-img">
             <img src="/img/profile-pic/user-1.png" alt="">
         </div>

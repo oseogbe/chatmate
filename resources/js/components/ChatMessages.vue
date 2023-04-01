@@ -26,7 +26,7 @@ ul {
         flex-direction: column;
 
         .chat-user {
-            color: #fff;
+            color: #3d3c3c;
 
             small {
                 float: right;

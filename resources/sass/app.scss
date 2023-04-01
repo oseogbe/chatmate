@@ -44,3 +44,8 @@ input[type="color"]:focus,
     box-shadow: none;
     outline: 0 none;
 }
+
+.rounded-bottom {
+    border-bottom-left-radius: 0.375rem !important;
+    border-bottom-right-radius: 0.375rem !important;
+}

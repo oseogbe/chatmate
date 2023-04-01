@@ -1,6 +1,6 @@
 <template>
     <div>
-        <chat-item></chat-item>
+        <chat-item class="chat-on-focus"></chat-item>
         <chat-item></chat-item>
     </div>
 </template>
@@ -10,5 +10,7 @@ import ChatItem from '@/components/ChatItem.vue'
 </script>
 
 <style lang="scss" scoped>
-
+.chat-on-focus {
+    background: var(--primary-color-light);
+}
 </style>

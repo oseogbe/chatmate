@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('chat_rooms', function (Blueprint $table) {
+        Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->tinyText('description')->nullable();
-            $table->foreignId('admin')->constrained('users', 'id');
-            $table->json('subadmins')->nullable();
-            $table->json('members')->nullable();
+            $table->morphs('messageable');
+            $table->index(['messageable_id', 'messageable_type']);
+            $table->bigInteger('user_id')->unsigned();
+            $table->text('message');
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('chat_rooms');
+        Schema::dropIfExists('messages');
     }
 };
