@@ -44,6 +44,7 @@
                                     id="newChatEmailInput"
                                     placeholder="name@example.com"
                                     v-model="newChatEmail"
+                                    @keydown.enter="newChat"
                                 />
                                 <div class="invalid-feedback">
                                     {{ errors?.email?.toString() }}
@@ -197,14 +198,17 @@ const errors = ref({});
 
 const newChat = async () => {
     await axios
-        .get(`/invite-to-chat?email=${newChatEmail.value}`)
+        .post(`/invite-to-chat`, {
+            email: newChatEmail.value,
+            invite_type: 'chat'
+        })
         .then((res) => {
             newChatEmail.value = "";
             errors.value = null;
             // newChatModalRef.value.classList.remove('show');
             // document.body.classList.remove('modal-open');
             // document.querySelector('.modal-backdrop').remove();
-            toast.success("Chat invitation sent!", {
+            toast.success(res.data.message, {
                 timeout: 2500
             });
         })

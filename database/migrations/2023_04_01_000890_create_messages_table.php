@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->morphs('messageable');
             $table->index(['messageable_id', 'messageable_type']);
-            $table->bigInteger('user_id')->unsigned();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->text('message');
             $table->timestamps();
         });

@@ -2,10 +2,6 @@
 
 @section('extra-css')
 <style>
-#chat-container {
-    z-index: 99999;
-}
-
 .card-header {
     background: #fff;
     color: var(--primary-color);

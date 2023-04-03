@@ -56,4 +56,9 @@ class User extends Authenticatable
     {
         return static::whereNot('id', auth()->id());
     }
+
+    public function invitations()
+    {
+        return $this->hasMany(ChatInvitation::class, 'inviter');
+    }
 }
