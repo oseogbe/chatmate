@@ -7,6 +7,12 @@
 import './bootstrap';
 import { createApp } from 'vue';
 
+import Toast, { POSITION } from "vue-toastification";
+
+// Import Toastification CSS or use your own!
+import "vue-toastification/dist/index.css";
+
+
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
  * registering components with the application instance so they are ready
@@ -16,6 +22,37 @@ import { createApp } from 'vue';
 import App from './App.vue';
 
 const app = createApp(App);
+
+
+/**
+ * Mount toasts to a specified element by accepting a container plugin option
+ */
+
+// async function chatContainer() {
+//     return new Promise(resolve => {
+//         const observer = new MutationObserver(function(mutations, me) {
+//             const myContainer = document.getElementById("chat-container");
+//             if (myContainer) {
+//                 console.log('chat-container exists');
+//                 me.disconnect();
+//                 resolve(myContainer);
+//             } else {
+//                 console.log('chat-container does not exist');
+//             }
+//         });
+//         observer.observe(document, {
+//             childList: true,
+//             subtree: true
+//         });
+//     });
+// }
+
+const toastOptions = {
+    // container: await chatContainer(),
+    position: POSITION.TOP_RIGHT
+};
+
+app.use(Toast, toastOptions);
 
 /**
  * The following block of code may be used to automatically register your

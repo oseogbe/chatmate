@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
 @section('extra-css')
 <style>
@@ -62,4 +62,4 @@
         chatBody.scrollTop = chatBody.scrollHeight;
     });
 </script>
-@endsection
+@endsection --}}

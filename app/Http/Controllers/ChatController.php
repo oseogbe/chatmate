@@ -19,6 +19,17 @@ class ChatController extends Controller
         return view('chat');
     }
 
+    public function inviteToChat(Request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'email:rfc,dns']
+        ],[
+            'email.email' => "Please enter a valid email address",
+        ]);
+
+        return $request->email;
+    }
+
     public function fetchMessages()
     {
         return Message::with('user')->get();

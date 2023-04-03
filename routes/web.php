@@ -29,3 +29,5 @@ Route::get('/users', [UserController::class, 'viewUsers']);
 Route::get('/chat', [ChatController::class, 'index']);
 Route::get('/messages', [ChatController::class, 'fetchMessages']);
 Route::post('/messages', [ChatController::class, 'sendMessage']);
+
+Route::get('/invite-to-chat', [ChatController::class, 'inviteToChat']);

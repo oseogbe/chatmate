@@ -80,8 +80,7 @@
         <main class="py-4">
             @yield('content')
         </main>
-
-        @yield('extra-js')
     </div>
+    @yield('extra-js')
 </body>
 </html>

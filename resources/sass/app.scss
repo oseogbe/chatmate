@@ -49,3 +49,23 @@ input[type="color"]:focus,
     border-bottom-left-radius: 0.375rem !important;
     border-bottom-right-radius: 0.375rem !important;
 }
+
+/**
+ * Toastification
+ */
+.Vue-Toastification__container {
+    .Vue-Toastification__toast--default,
+    .Vue-Toastification__toast--success {
+        background-color: #fff;
+        color: var(--primary-color);
+    }
+
+    @media (min-width: 600px) {
+        .top-left,
+        .top-right {
+            top: 2.6rem;
+        }
+    }
+}
+
+
