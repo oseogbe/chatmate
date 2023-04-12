@@ -61,4 +61,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(ChatInvitation::class, 'inviter');
     }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? false,
+            fn ($query, $search) =>
+                $query->where('name', 'like', '%'.$search.'%')
+                    ->orWhere('email', 'like', '%'.$search.'%')
+        );
+
+        $query->when($filters['room'] ?? false,
+            fn ($query, $room) =>
+                $query->whereHas('chatRooms',
+                    fn ($query) => $query->where('name', $room)
+                )
+        );
+    }
 }

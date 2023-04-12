@@ -18,4 +18,9 @@ class UserController extends Controller
         $users = UserResource::collection(User::otherUsers()->get());
         return view('users', ['users' => $users->toArray(request())]);
     }
+
+    public function users()
+    {
+        return User::filter(request(['search', 'room']))->get();
+    }
 }
