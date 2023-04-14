@@ -19,8 +19,11 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
+        'bio',
+        'profile_pic'
     ];
 
     /**
@@ -62,19 +65,29 @@ class User extends Authenticatable
         return $this->hasMany(ChatInvitation::class, 'inviter');
     }
 
-    public function scopeFilter($query, array $filters)
-    {
-        $query->when($filters['search'] ?? false,
-            fn ($query, $search) =>
-                $query->where('name', 'like', '%'.$search.'%')
-                    ->orWhere('email', 'like', '%'.$search.'%')
-        );
+    // public function scopeFilter($query, array $filters)
+    // {
+    //     $query->when($filters['search'] ?? false,
+    //         fn ($query, $search) =>
+    //             $query->where('name', 'like', '%'.$search.'%')
+    //                 ->orWhere('email', 'like', '%'.$search.'%')
+    //     );
 
-        $query->when($filters['room'] ?? false,
-            fn ($query, $room) =>
-                $query->whereHas('chatRooms',
-                    fn ($query) => $query->where('name', $room)
-                )
-        );
+    //     $query->when($filters['room'] ?? false,
+    //         fn ($query, $room) =>
+    //             $query->whereHas('chatRooms',
+    //                 fn ($query) => $query->where('name', $room)
+    //             )
+    //     );
+    // }
+
+    public function scopeFilter($query)
+    {
+        $query->when(request('search'), fn ($query) =>
+            $query->where('name', 'like', '%'.request('search').'%'))
+                    ->orWhere('username', 'like', '%'.request('search').'%')
+                    ->orWhere('email', 'like', '%'.request('search').'%')
+        ->when(request('sortBy'), fn ($query) =>
+                $query->orderBy(request('sortBy'), request('direction', 'asc')));
     }
 }

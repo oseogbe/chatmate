@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,6 +22,14 @@ class UserController extends Controller
 
     public function users()
     {
-        return User::filter(request(['search', 'room']))->get();
+        // return User::filter(request(['search', 'room']))->get();
+        return User::filter()->get();
+    }
+
+    public function createUser(UserRequest $request)
+    {
+        $request->validated();
+
+        User::create($request->all());
     }
 }

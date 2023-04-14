@@ -104,6 +104,7 @@
                                     class="form-control"
                                     id="newGroupChatNameInput"
                                     v-model="groupChatName"
+                                    @keydown.enter=""
                                 />
                             </div>
                         </div>
@@ -167,6 +168,7 @@
                                     class="form-control"
                                     id="newGroupMemberEmailInput"
                                     placeholder="name@example.com"
+                                    @keydown.enter=""
                                 />
                             </div>
                         </div>
