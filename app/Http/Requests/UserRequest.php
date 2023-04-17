@@ -31,23 +31,26 @@ class UserRequest extends FormRequest
 
     public function rules(): array
     {
+        dd($this->route('user'));
         return match($this->method()) {
             'POST' => [
-                'name' => ['required', 'string', 'max:50', 'unique:users'],
+                'name' => ['required', 'string', 'max:50'],
+                'username' => ['required', 'string', 'max:50', 'unique:users'],
                 'email' => ['required', 'email', 'unique:users'],
+                'password' => ['sometimes', 'required', 'string', 'min:8', 'confirmed'],
             ],
             'PUT', 'PATCH' => [
-                'name' => ['required', 'string', 'max:50', 'unique:users,name,'.$this->route('user')],
+                'name' => ['required', 'string', 'max:50'],
+                'username' => ['required', 'string', 'max:50', 'unique:users,username,'.$this->route('user')],
                 'email' => ['required', 'email', 'unique:users,email,'.$this->route('user')],
             ]
         };
     }
 
-    // protected function passedValidation(): void
-    // {
-    //     $this->merge([
-    //         'password' => bcrypt('12345678'),
-    //     ]);
-    // }
-
+    protected function passedValidation(): void
+    {
+        $this->merge([
+            'password' => bcrypt($this->password) ?? bcrypt('12345678'),
+        ]);
+    }
 }

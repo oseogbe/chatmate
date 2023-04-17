@@ -26,10 +26,9 @@ class UserController extends Controller
         return User::filter()->get();
     }
 
-    public function createUser(UserRequest $request)
-    {
-        $request->validated();
-
-        User::create($request->all());
-    }
+    // public function createUser(UserRequest $request)
+    // {
+    //     $request->validated();
+    //     User::create($request->only('name', 'username', 'email', 'password'));
+    // }
 }

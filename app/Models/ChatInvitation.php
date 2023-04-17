@@ -10,6 +10,10 @@ class ChatInvitation extends Model
 {
     use HasFactory, HasUuids;
 
+    const Pending = 'pending';
+    const Accepted = 'accepted';
+    const Rejected = 'rejected';
+
     protected $guarded = [];
 
     protected $table = 'chat_invitation';
@@ -24,5 +28,10 @@ class ChatInvitation extends Model
     public function from()
     {
         return $this->belongsTo(User::class, 'inviter');
+    }
+
+    public function to()
+    {
+        return User::where('email', $this->invitee)->first();
     }
 }
