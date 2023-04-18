@@ -45,19 +45,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function messages()
-    {
-        return $this->hasMany(Message::class);
-    }
-
     public function myChats()
     {
         return $this->hasMany(Chat::class, 'user1');
     }
 
-    public function chats($user_id)
+    public function chats()
     {
-        return static::where('user1', $user_id)->orWhere('user2', $user_id);
+        return Chat::where('user1', $this->id)->orWhere('user2', $this->id)->get();
     }
 
     public function chatRooms()
