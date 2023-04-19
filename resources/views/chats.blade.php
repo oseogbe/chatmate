@@ -54,7 +54,7 @@
     <div class="row">
         <div class="col-md-3">
             <div class="card">
-                <chat-list></chat-list>
+                <chat-list :chats='@json($chats)'></chat-list>
             </div>
         </div>
         <div class="col-md-9">

@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Events\MessageSentEvent;
+use App\Http\Resources\ChatResourceCollection;
+use App\Models\Chat;
 use App\Models\ChatInvitation;
 use App\Models\Message;
-use App\Models\User;
 use App\Notifications\ChatInvitationAccepted;
 use Illuminate\Http\Request;
 
@@ -18,36 +19,8 @@ class ChatController extends Controller
 
     public function index()
     {
-        return redirect()->route('chats');;
-    }
-
-    public function acceptInvitation(Request $request, $token)
-    {
-        $invitation = ChatInvitation::findOr($token, function() {
-            abort(to_route('welcome'));
-        });
-
-        if($invitation->status == ChatInvitation::Accepted) {
-            return redirect()->route('chats');
-        }
-
-        if (!auth()->check()) {
-            session()->put('invitation_token', $token);
-            return redirect()->route('register');
-        }
-
-        // Create the chat between the two users
-        match(tap($invitation)->update(['status' => ChatInvitation::Accepted])->invite_type) {
-            'chat' => User::find($invitation->inviter)->myChats()->create(['user2' => auth()->id()]),
-            'chatroom' => null,
-            default => null,
-        };
-
-        // send chat invitation accepted notification
-        $invitation->from->notify(new ChatInvitationAccepted($invitation));
-
-        // return chats view
-        return redirect()->route('chats');
+        $chats = (new ChatResourceCollection(auth()->user()->chats, auth()->id()))->jsonSerialize();
+        return view('chats', compact('chats'));
     }
 
     public function inviteToChat(Request $request)
@@ -74,16 +47,48 @@ class ChatController extends Controller
         return Message::with('user')->get();
     }
 
-    public function sendMessage(Request $request)
+    public function sendMessage(Request $request, $chat_id)
     {
-        $user = auth()->user();
+        $chat = Chat::find($chat_id);
 
-        $message = $user->messages()->create([
+        $message = $chat->messages()->create([
+            'user_id' =>auth()->id(),
             'message' => $request->message
         ]);
 
-        broadcast(new MessageSentEvent($user, $message))->toOthers();
+        broadcast(new MessageSentEvent(auth()->user(), $message))->toOthers();
 
-        return response(['status' => 'Message Sent!']);
+        return response()->json([
+            'status' => 'Message Sent!'
+        ]);
+    }
+
+    public function acceptInvitation(Request $request, $token)
+    {
+        $invitation = ChatInvitation::findOr($token, function() {
+            abort(to_route('welcome'));
+        });
+
+        if($invitation->status == ChatInvitation::Accepted) {
+            return redirect()->route('chats');
+        }
+
+        if (!auth()->check()) {
+            session()->put('invitation_token', $token);
+            return redirect()->route('register');
+        }
+
+        // Create the chat between the two users
+        match(tap($invitation)->update(['status' => ChatInvitation::Accepted])->invite_type) {
+            'chat' => $invitation->from->myChats()->create(['user2' => auth()->id()]),
+            'chatroom' => null,
+            default => null,
+        };
+
+        // send chat invitation accepted notification
+        $invitation->from->notify(new ChatInvitationAccepted($invitation));
+
+        // return chats view
+        return redirect()->route('chats');
     }
 }

@@ -22,13 +22,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/chats', [App\Http\Controllers\HomeController::class, 'index'])->name('chats');
-
 Route::get('/users', [UserController::class, 'viewUsers']);
 
-Route::get('/chat', [ChatController::class, 'index'])->name('chat');
-Route::get('/messages', [ChatController::class, 'fetchMessages']);
-Route::post('/messages', [ChatController::class, 'sendMessage']);
-
-Route::post('/invite-to-chat', [ChatController::class, 'inviteToChat']);
+Route::get('/chats', [ChatController::class, 'index'])->name('chats');
 Route::get('/chat/{token}/accept', [ChatController::class, 'acceptInvitation'])->withoutMiddleware(['auth'])->name('accept.invitation');
+
+Route::get('/messages', [ChatControllerAPI::class, 'fetchMessages']);
+Route::post('/chats/{chat_id}/message', [ChatControllerAPI::class, 'sendMessage']);
+Route::post('/invite-to-chat', [ChatControllerAPI::class, 'inviteToChat']);

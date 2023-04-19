@@ -15,4 +15,14 @@ class Chat extends Model
     {
         return $this->morphMany(Message::class, 'messageable');
     }
+
+    public function user1()
+    {
+        return $this->belongsTo(User::class, 'user1');
+    }
+
+    public function user2()
+    {
+        return $this->belongsTo(User::class, 'user2');
+    }
 }

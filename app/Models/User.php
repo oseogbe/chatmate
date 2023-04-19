@@ -52,7 +52,7 @@ class User extends Authenticatable
 
     public function chats()
     {
-        return Chat::where('user1', $this->id)->orWhere('user2', $this->id)->get();
+        return $this->hasMany(Chat::class, 'user1')->orWhere('user2', $this->id);
     }
 
     public function chatRooms()
@@ -91,7 +91,6 @@ class User extends Authenticatable
         $query->when(request('search'), fn ($query) =>
             $query->where('name', 'like', '%'.request('search').'%'))
                     ->orWhere('username', 'like', '%'.request('search').'%')
-                    ->orWhere('email', 'like', '%'.request('search').'%')
         ->when(request('sortBy'), fn ($query) =>
                 $query->orderBy(request('sortBy'), request('direction', 'asc')));
     }

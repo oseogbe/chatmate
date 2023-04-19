@@ -1,17 +1,18 @@
 <template>
     <div class="d-flex p-4" role="button">
         <div class="chat-user-img">
-            <img src="/img/profile-pic/user-1.png" alt="">
+            <img :src="chat.contact.profile_pic ?? '/img/profile-placeholder.jpg'" alt="">
         </div>
         <div class="ps-3">
-            <h5>Andy Konstatinos</h5>
+            <h5>{{ chat.contact.name }}</h5>
             <small>Could you help with the groceries...</small>
         </div>
     </div>
 </template>
 
 <script setup>
-
+const props = defineProps(['chat'])
+const chat = props.chat
 </script>
 
 <style lang="scss" scoped>
@@ -21,7 +22,7 @@
         img {
             width: 100%;
             border-radius: 50%;
-            background: var(--primary-color);
+            // background: var(--primary-color);
             padding: 1.5px;
         }
     }
