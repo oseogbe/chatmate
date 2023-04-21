@@ -12,21 +12,22 @@
 
 <script setup>
 import { ref } from 'vue'
-
+import { useChatStore } from '../stores/chat'
 import ChatItem from '@/components/ChatItem.vue'
 
-const props = defineProps(['chats'])
-const chats = props.chats.data
+const store = useChatStore()
 
-const focusedChatId = ref(chats[0].id)
+const props = defineProps(['chats'])
+
+const chats = props.chats.data
+const currentChatId = ref(chats[0].id)
+store.chatId = currentChatId.value
 
 const onChatItemClick = chatId => {
-    // emit an event to get the messages and populate chat messages component
-
-    return focusedChatId.value = chatId
+    store.chatId = currentChatId.value = chatId
 }
 
-const isFocused = (chatId) => focusedChatId.value === chatId
+const isFocused = (chatId) => currentChatId.value === chatId
 </script>
 
 <style lang="scss" scoped>

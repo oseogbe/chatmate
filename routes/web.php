@@ -25,8 +25,7 @@ Auth::routes();
 Route::get('/users', [UserController::class, 'viewUsers']);
 
 Route::get('/chats', [ChatController::class, 'index'])->name('chats');
+Route::post('/invite-to-chat', [ChatController::class, 'inviteToChat']);
 Route::get('/chat/{token}/accept', [ChatController::class, 'acceptInvitation'])->withoutMiddleware(['auth'])->name('accept.invitation');
-
-Route::get('/messages', [ChatControllerAPI::class, 'fetchMessages']);
-Route::post('/chats/{chat_id}/message', [ChatControllerAPI::class, 'sendMessage']);
-Route::post('/invite-to-chat', [ChatControllerAPI::class, 'inviteToChat']);
+Route::get('/chats/{chat_id}/messages', [ChatController::class, 'fetchMessages']);
+Route::post('/chats/{chat_id}/message', [ChatController::class, 'sendMessage']);

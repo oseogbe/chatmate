@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Events\MessageSentEvent;
 use App\Http\Resources\ChatResourceCollection;
+use App\Http\Resources\MessageResource;
 use App\Models\Chat;
 use App\Models\ChatInvitation;
 use App\Models\Message;
 use App\Notifications\ChatInvitationAccepted;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class ChatController extends Controller
@@ -42,27 +44,6 @@ class ChatController extends Controller
         ]);
     }
 
-    public function fetchMessages()
-    {
-        return Message::with('user')->get();
-    }
-
-    public function sendMessage(Request $request, $chat_id)
-    {
-        $chat = Chat::find($chat_id);
-
-        $message = $chat->messages()->create([
-            'user_id' =>auth()->id(),
-            'message' => $request->message
-        ]);
-
-        broadcast(new MessageSentEvent(auth()->user(), $message))->toOthers();
-
-        return response()->json([
-            'status' => 'Message Sent!'
-        ]);
-    }
-
     public function acceptInvitation(Request $request, $token)
     {
         $invitation = ChatInvitation::findOr($token, function() {
@@ -91,4 +72,34 @@ class ChatController extends Controller
         // return chats view
         return redirect()->route('chats');
     }
+
+    public function fetchMessages($chat_id)
+    {
+        $messages = Message::whereHasMorph(
+            'messageable',
+            [Chat::class],
+            function(Builder $query) use ($chat_id) {
+                $query->where('id', $chat_id);
+            }
+        )->get();
+
+        return MessageResource::collection($messages);
+    }
+
+    public function sendMessage(Request $request, $chat_id)
+    {
+        $chat = Chat::find($chat_id);
+
+        $message = $chat->messages()->create([
+            'user_id' =>auth()->id(),
+            'message' => $request->message
+        ]);
+
+        broadcast(new MessageSentEvent(auth()->user(), $message))->toOthers();
+
+        return response()->json([
+            'status' => 'Message Sent!'
+        ]);
+    }
+
 }

@@ -27,7 +27,8 @@ class ChatResource extends JsonResource
                 'username' => $user->username,
                 'profile_pic' => $user->profile_pic,
                 'bio' => $user->bio,
-            ]
+            ],
+            // 'messages' => MessageResource::collection($this->messages)
         ];
     }
 }

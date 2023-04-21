@@ -54,14 +54,15 @@
     <div class="row">
         <div class="col-md-3">
             <div class="card">
-                <chat-list :chats='@json($chats)'></chat-list>
+                <chat-list
+                    :chats='@json($chats)'
+                ></chat-list>
             </div>
         </div>
         <div class="col-md-9">
             <div class="card rounded-0 rounded-bottom">
                 <div class="card-body chat-body" id="chatBody">
                     <chat-messages
-                        :messages="messages"
                         :user="{{ Auth::user() }}"
                     ></chat-messages>
                 </div>

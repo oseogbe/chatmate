@@ -4,7 +4,7 @@
             <img :src="chat.contact.profile_pic ?? '/img/profile-placeholder.jpg'" alt="">
         </div>
         <div class="ps-3">
-            <h5>{{ chat.contact.name }}</h5>
+            <h5>{{ chat.contact.username }}</h5>
             <small>Could you help with the groceries...</small>
         </div>
     </div>

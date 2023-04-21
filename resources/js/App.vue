@@ -5,9 +5,9 @@ export default {
     setup() {
         const messages = ref([])
 
-        const fetchMessages = async () => {
+        const fetchMessages = async (chatId) => {
             try {
-                const response = await axios.get('/messages')
+                const response = await axios.get(`chats/${chatId}/messages`)
                 messages.value = response.data
             } catch (error) {
                 // console.error(error)
@@ -23,8 +23,6 @@ export default {
                 // console.error(error)
             }
         }
-
-        fetchMessages()
 
         let channel = Echo.private('chatme')
 
@@ -60,7 +58,8 @@ export default {
         }
 
         return {
-            messages,
+            // messages,
+            // fetchMessages,
             addMessage,
             isTyping,
             user_typing,

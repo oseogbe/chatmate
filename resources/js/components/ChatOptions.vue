@@ -187,16 +187,16 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useToast } from "vue-toastification";
+import { ref } from 'vue'
+import { useToast } from 'vue-toastification'
 
 // Get toast interface
-const toast = useToast();
+const toast = useToast()
 
-const newChatModalRef = ref(null);
-const newChatEmail = ref("");
+const newChatModalRef = ref(null)
+const newChatEmail = ref("")
 
-const errors = ref({});
+const errors = ref({})
 
 const newChat = async () => {
     await axios
@@ -205,23 +205,23 @@ const newChat = async () => {
             invite_type: 'chat'
         })
         .then((res) => {
-            newChatEmail.value = "";
-            errors.value = null;
+            newChatEmail.value = ""
+            errors.value = null
             // newChatModalRef.value.classList.remove('show');
             // document.body.classList.remove('modal-open');
             // document.querySelector('.modal-backdrop').remove();
             toast.success(res.data.message, {
                 timeout: 2500
-            });
+            })
         })
         .catch((err) => {
-            errors.value = err.response?.data?.errors;
-        });
+            errors.value = err.response?.data?.errors
+        })
 };
 
-const groupChatName = ref("");
+const groupChatName = ref("")
 
-const addMembers = () => {};
+const addMembers = () => {}
 </script>
 
 <style lang="scss" scoped>

@@ -6,6 +6,7 @@
 
 import './bootstrap';
 import { createApp } from 'vue';
+import { createPinia } from 'pinia'
 
 import Toast, { POSITION } from "vue-toastification";
 
@@ -23,6 +24,7 @@ import App from './App.vue';
 
 const app = createApp(App);
 
+app.use(createPinia());
 
 /**
  * Mount toasts to a specified element by accepting a container plugin option

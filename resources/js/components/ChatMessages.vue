@@ -1,19 +1,26 @@
 <template>
     <ul>
-        <li v-for="message in messages" :key="message.id">
-            <p class="chat" :class="{'chat-left': user.id !== message.user.id}">
+        <li v-for="(message, index) in messageList" :key="index">
+            <p class="chat" :class="{'chat-left': user.id !== message.user_id}">
                 <div class="chat-message">
                     <strong>{{ message.message }}</strong>
                 </div>
                 <span class="chat-user">
-                    <small>{{ message.user.name }}</small>
+                    <small>{{ message.username }}</small>
                 </span>
             </p>
         </li>
     </ul>
 </template>
 <script setup>
-defineProps(['user', 'messages'])
+import { computed } from 'vue'
+import { useChatStore } from '../stores/chat'
+
+const store = useChatStore()
+
+const props = defineProps(['user'])
+
+const messageList = computed(() => store.messages)
 </script>
 <style lang="scss" scoped>
 
