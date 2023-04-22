@@ -12,7 +12,7 @@
                 @keyup.enter="sendMessage"
                 autocomplete="off"
             />
-            <span class="input-group-btn" style="margin-left: 12px;">
+            <span class="input-group-btn" style="margin-left: 12px">
                 <button
                     class="btn btn-primary btn-sm h-100"
                     id="btn-chat"
@@ -23,33 +23,66 @@
                 </button>
             </span>
         </div>
-        <span v-show="props.typing" class="help-block" style="font-style: italic;">
-            @{{ props.user_typing }} is typing...
+        <span
+            v-show="typing"
+            class="help-block"
+            style="font-style: italic"
+        >
+            @{{ userTyping }} is typing...
         </span>
     </div>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref } from "vue"
+import { useChatStore } from "../stores/chat"
 
-const props = defineProps(['user', 'typing', 'user_typing'])
+const store = useChatStore()
 
-const emit = defineEmits(['messagesent', 'isTyping'])
+const props = defineProps(["user"])
+const username = props.user.username
+
+let channel = Echo.private(`chatmate.chats.${store.chatId}`)
+
+const typing = ref(false)
+const userTyping = ref("")
+
+let lastTypingTime = 0
+let timeoutId = null
 
 const onUserTyping = () => {
-    emit('isTyping', {
-        username: props.user.name
-    })
+    if (!typing.value) {
+        // typing.value = true
+        channel.whisper("typing", {
+            user_typing: username,
+            typing: true,
+        })
+    }
+
+    clearTimeout(timeoutId)
+
+    timeoutId = setTimeout(() => {
+        if (Date.now() - lastTypingTime >= 1000) {
+            // typing.value = false
+            // userTyping.value = ""
+            channel.whisper("typing", {
+                user_typing: username,
+                typing: false,
+            })
+        }
+    }, 1000)
+
+    lastTypingTime = Date.now()
 }
 
-const newMessage = ref('')
+channel.listenForWhisper('typing', (e) => {
+    userTyping.value = e.user_typing
+    typing.value = e.typing
+})
+
+const newMessage = ref("")
 
 const sendMessage = () => {
-    emit('messagesent', {
-        user: props.user,
-        message: newMessage.value,
-    })
-
-    newMessage.value = ''
+    store.addMessage(newMessage.value)
+    newMessage.value = ""
 }
-
 </script>

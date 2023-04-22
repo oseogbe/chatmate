@@ -14,10 +14,20 @@ export const useChatStore = defineStore('chat', () => {
         }
     }
 
+    const addMessage = async (message) => {
+        messages.value.push(message)
+        try {
+            await axios.post(`chats/${chatId.value}/message`, {message})
+        } catch (error) {
+            // console.error(error)
+        }
+    }
+
     watch(chatId, () => fetchMessages())
 
     return {
         chatId,
         messages,
+        addMessage
     }
 })

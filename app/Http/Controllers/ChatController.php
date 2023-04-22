@@ -90,12 +90,14 @@ class ChatController extends Controller
     {
         $chat = Chat::find($chat_id);
 
-        $message = $chat->messages()->create([
-            'user_id' =>auth()->id(),
+        $chat->messages()->create([
+            'user_id' => auth()->id(),
             'message' => $request->message
         ]);
 
-        broadcast(new MessageSentEvent(auth()->user(), $message))->toOthers();
+        // broadcast(new MessageSentEvent($chat_id, $request->message))->toOthers();
+
+        event(new MessageSentEvent($chat_id, $request->message));
 
         return response()->json([
             'status' => 'Message Sent!'

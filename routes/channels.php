@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -14,6 +13,10 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('chatme', function($user) {
-    return Auth::check();
+Broadcast::channel('chatmate', function($user) {
+    return true;
+});
+
+Broadcast::channel('chatmate.chats.{chat_id}', function($user, $chat_id) {
+    return in_array((int) $chat_id, $user->chats()->pluck('id')->toArray());
 });

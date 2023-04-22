@@ -68,11 +68,7 @@
                 </div>
                 <div class="card-footer chat-form">
                     <chat-form
-                        v-on:messagesent="addMessage"
                         :user="{{ Auth::user() }}"
-                        :typing="typing"
-                        v-on:is-typing="isTyping"
-                        :user_typing="user_typing"
                     ></chat-form>
                 </div>
             </div>

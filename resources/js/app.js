@@ -6,7 +6,7 @@
 
 import './bootstrap';
 import { createApp } from 'vue';
-import { createPinia } from 'pinia'
+import { createPinia } from 'pinia';
 
 import Toast, { POSITION } from "vue-toastification";
 

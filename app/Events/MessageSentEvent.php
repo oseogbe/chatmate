@@ -16,14 +16,14 @@ class MessageSentEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user, $message;
+    public $chat_id, $message;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(User $user, Message $message)
+    public function __construct(int $chat_id, string $message)
     {
-        $this->user = $user;
+        $this->chat_id = $chat_id;
         $this->message = $message;
     }
 
@@ -35,12 +35,12 @@ class MessageSentEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('chatme'),
+            new PrivateChannel("chatmate.chats.{$this->chat_id}"),
         ];
     }
 
     public function broadcastAs()
     {
-        return 'message-sent';
+        return 'new.chat';
     }
 }

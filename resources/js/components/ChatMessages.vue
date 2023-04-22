@@ -16,9 +16,8 @@
 import { computed } from 'vue'
 import { useChatStore } from '../stores/chat'
 
-const store = useChatStore()
-
 const props = defineProps(['user'])
+const store = useChatStore()
 
 const messageList = computed(() => store.messages)
 </script>
